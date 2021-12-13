@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Main page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body>
+<div class="container" style="width: 780px">
+    <br>
+    <br>
+    <br>
+    <!--    Filters-->
+
+    <br>
+    <table class="table table-borderless">
+    <form action="/" method="get">
+        <tr style="margin-bottom: 30px">
+            <td>
+                <select style="width: 100px" name="category">
+                    <option name="category" value="0" >Category</option>
+                    <div th:each="category: ${categories}">
+                        <option name="category" th:value="${category.getId()}" th:text="${category.getName()}"></option>
+                    </div>
+                </select>
+            </td>
+            <td>
+                <input style="width: 130px"  type="date" name="fromDate">
+            </td>
+            <td>
+                <input  style="width: 130px" type="date" name="untilDate">
+            </td>
+            <td>
+                <input  type="submit" value="Search">
+            </td>
+        </tr>
+    </form>
+    </table>
+    <br>
+    <table class="table table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>Date</th>
+            <th>Expense</th>
+            <th> Amount</th>
+            <th>Category</th>
+        </tr>
+        </thead >
+        <tbody>
+        <tr th:each="element: ${expenses}">
+            <td th:text="${element.getDate()}"></td>
+            <td th:text="${element.getName()}"></td>
+            <td th:text="'$' + ${element.getAmount()}"></td>
+            <div th:if="${element.getCategory()}">
+                <td th:text="${element.getCategory().getName()}"></td>
+            </div>
+            <div th:unless="${element.getCategory()}">
+                <td th:text="${'no category'}"></td>
+            </div>
+
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td th:text="'Sum= ' + ${sum}"></td>
+            <td th:text="${month}"></td>
+            <td colspan="2" th:text="${dayWithoutExpense}"></td>
+        </tr>
+        </tfoot>
+    </table>
+
+
+</div>
+</body>
+</html>
